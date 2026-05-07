@@ -51,22 +51,31 @@ If you don’t set these, the code uses the defaults
                       download (boto3)
                              |
                              v
-                       +---------------+     +------------------+
-                       |    ingest     | --> |   transform      |
-                       | read_csv list |     | merge + clean    |
-                       +---------------+     +--------+---------+
-                                                      |
-                                                      |
-                                                      v
-                                              +---------------+
-                                              |   validate    |
-                                              +-------+-------+
-                                                      |
-                                                      v
-                                              +---------------+
-                                              |   output      |
-                                              |  S3 upload    |
-                                              +---------------+
+                       +---------------+     
+                       |    ingest     | 
+                       |  read csv(s)  |     
+                       +---------------+    
+                               |
+                               |
+                               v
+                       +------------------+     
+                       |    transform     | 
+                       | merge dataframes |
+                       |  and clean data  |   
+                       +------------------+
+                               |
+                               |
+                               v
+                        +---------------+     
+                        |    validate   |    
+                        +---------------+    
+                               |
+                               |
+                               v
+                        +---------------+
+                        |   output      |
+                        |  S3 upload    |
+                        +---------------+
 ```
 
 
