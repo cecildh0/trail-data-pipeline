@@ -1,12 +1,12 @@
 # Trail Data Pipeline Project
 
-End-to-end data pipeline for trail data on trails in Columbia River Gorge. Uses Python, pandas, and AWS (specifically S3 buckets), in ingest -> transform -> output format
+End-to-end data pipeline for trail data on trails in Columbia River Gorge. Uses Python, pandas, and AWS (specifically an S3 bucket), in ingest -> transform -> output format
 
 Raw CSV data files used for this project come from [Hiking Trails, Columbia River Gorge by CHUCKH](https://www.kaggle.com/datasets/chuckh193333/hiking-trails-columbia-river-gorge) on Kaggle.
 
 ## What it does
 
-Designed for two CSVs: hiking trails (specifically Columbia River Gorge) and trail hazards (for those same trails). It merges them, cleans up messy text/numbers and standardizes data, writes a cleaned CSV, and uploads that file to S3. If S3 download or upload fails, it prints a message and falls back to local files and upload.
+Designed for two CSVs: hiking trails (specifically Columbia River Gorge) and trail hazards (for those same trails). It merges them, cleans up messy text/numbers and standardizes data, writes a cleaned CSV, and uploads that file to S3 bucket. If S3 download or upload fails, it prints a message and falls back to local files and upload.
 
 
 ## Run
@@ -30,7 +30,7 @@ python -m unittest test_transform.py
 
 If you don’t set these, the code uses the defaults
 
-| Variable | Use |
+| Variable | Usage |
 |----------|----------------|
 | `BUCKET_NAME` | S3 bucket |
 | `LOCAL_TRAILS_FILE` | Where to save/read trails CSV locally |
@@ -43,39 +43,39 @@ If you don’t set these, the code uses the defaults
 ## Pipeline Diagram
 
 ```
-                    +------------------+
-                    |        S3        |
-                    |  raw CSV objects |
-                    +--------+---------+
-                             |
-                      download (boto3)
-                             |
-                             v
-                       +---------------+     
-                       |    ingest     | 
-                       |  read csv(s)  |     
-                       +---------------+    
-                               |
-                               |
-                               v
-                       +------------------+     
-                       |    transform     | 
-                       | merge dataframes |
-                       |  and clean data  |   
-                       +------------------+
-                               |
-                               |
-                               v
-                        +---------------+     
-                        |    validate   |    
-                        +---------------+    
-                               |
-                               |
-                               v
-                        +---------------+
-                        |   output      |
-                        |  S3 upload    |
-                        +---------------+
++------------------+
+|        S3        |
+|  raw CSV objects |
++--------+---------+
+         |
+   download (boto3)
+         |
+         v
++---------------+     
+|    ingest     | 
+|  read csv(s)  |     
++---------------+    
+        |
+        |
+        v
++------------------+     
+|    transform     | 
+| merge dataframes |
+|  and clean data  |   
++------------------+
+          |
+          |
+          v
++---------------+     
+|    validate   |    
++---------------+    
+        |
+        |
+        v
++---------------+
+|   output      |
+|  S3 upload    |
++---------------+
 ```
 
 
